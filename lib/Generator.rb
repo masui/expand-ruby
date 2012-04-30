@@ -26,12 +26,6 @@ module ReExpand
       @accept = accept
       @state = state
     end
-    
-    #attr :id, true
-    #attr :s, true
-    #attr :substrings, true
-    #attr :accept, true
-    #attr :state, true
     attr_accessor :id,:s,:substrings,:accept,:state
   end
   

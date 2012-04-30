@@ -47,8 +47,6 @@ module ReExpand
     attr_reader :id
     attr_reader :trans
     attr_accessor :accept,:pars
-    #attr :accept, true
-    #attr :pars, true
     
     def addTrans(pat,dest)
       t = Trans.new(pat,dest)

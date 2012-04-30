@@ -10,7 +10,7 @@ If a filter pattern is given, the output is filtered by the pattern.
 == SYNOPSIS:
 
   require 're_expand'
-  "test (a|b|c)".expand { |s|
+  "test (a|b|c)".expand { |s,a|
    puts s
   }
   # "test a",  "test b", ...
