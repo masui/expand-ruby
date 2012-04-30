@@ -2,8 +2,8 @@
 #
 # 文字列から1トークンずつ取得
 #
+$KCODE = 'utf8' if RUBY_VERSION < "1.9"
 
-$KCODE = 'utf8'
 
 module ReExpand
   class Scanner
