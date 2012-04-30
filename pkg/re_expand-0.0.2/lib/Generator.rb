@@ -115,10 +115,10 @@ module ReExpand
                         /#{patstr}/ =~ ss.join("\t")
                       end
                       ##                    next if $1 == $2
+                      #File.open("/tmp/log","a"){ |f|
+                      #  f.puts "#{s}-----" + eval('%('+@commands[acceptno]+')')
+                      #}
                       # 'set date #{$2}' のような記述の$変数にsubstringの値を代入
-                      File.open("/tmp/log","a"){ |f|
-                        f.puts "#{s}-----" + eval('%('+@commands[acceptno]+')')
-                      }
                       res[ambig] << [s, eval('%('+@commands[acceptno]+')')]
                     end
                   end

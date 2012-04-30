@@ -3,7 +3,7 @@ $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 module ReExpand
-  VERSION = '0.0.2'
+  VERSION = '0.0.3'
 end
 
 require 'Generator'
@@ -17,13 +17,16 @@ class String
     g = ReExpand::Generator.new
     g.add(self,'')
     strings = []
+    #if filterpat.class == Regexp && block then
+    #  g.generate(' ',block)
+    #  return
     if filterpat.class == String then
       matched = g.generate(filterpat)
       res = matched[0].length > 0 ? matched[0] : matched[1].length > 0 ? matched[1] : matched[2]
       strings = res.collect { |r|
         r[0]
       }
-    elsif
+    else
       matched = g.generate(' ')
       strings = matched[0].collect { |r|
         r[0]
