@@ -3,7 +3,7 @@ $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 module ReExpand
-  VERSION = '0.0.1'
+  VERSION = '0.0.2'
 end
 
 require 'Generator'
@@ -14,7 +14,7 @@ require 'Scanner'
 class String
   # ExpandHelp用のライブラリを利用
   def expand(filterpat=' ')
-    g = Generator.new
+    g = ReExpand::Generator.new
     g.add(self,'')
     strings = []
     if filterpat.class == String then
