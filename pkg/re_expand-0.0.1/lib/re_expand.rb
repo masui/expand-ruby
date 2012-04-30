@@ -15,32 +15,32 @@ class String
   # ExpandHelp用のライブラリを利用
   def expand(filterpat=' ')
     g = ReExpand::Generator.new
-    g.add(self,'')
+    g.add(self,"\#{$1}\t\#{$2}\t\#{$3}\t\#{$4}\t\#{$5}\t\#{$6}\t\#{$7}\t\#{$8}\t\#{$9}")
     strings = []
     #if filterpat.class == Regexp && block then
     #  g.generate(' ',block)
     #  return
     if filterpat.class == String then
-      matched = g.generate(filterpat)
-      res = matched[0].length > 0 ? matched[0] : matched[1].length > 0 ? matched[1] : matched[2]
-      strings = res.collect { |r|
+      m = g.generate(filterpat)
+      matched = m[0].length > 0 ? m[0] : m[1].length > 0 ? m[1] : m[2]
+      strings = matched.collect { |r|
         r[0]
       }
     else
-      matched = g.generate(' ')
-      strings = matched[0].collect { |r|
-        r[0]
-      }
+      matched = g.generate(' ')[0]
       if filterpat.class == Regexp then
-        strings = strings.find_all { |s|
-          filterpat.match(s)
+        matched = matched.find_all { |r|
+          filterpat.match(r[0])
         }
       end
+      strings = matched.collect { |r|
+        r[0]
+      }
     end
 
     if block_given? then
-      strings.each { |string|
-        yield string
+      matched.collect { |m|
+        yield m[0], m[1].split(/\t/)
       }
     else
       strings
