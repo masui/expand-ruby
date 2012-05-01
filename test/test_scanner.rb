@@ -15,21 +15,21 @@ module ReExpand
       assert_equal s.gettoken, 'd'
     end
     
-    def test_1
+    def test_2
       s = Scanner.new('a+d')
       assert_equal s.gettoken, 'a'
       assert_equal s.gettoken, '+'
       assert_equal s.gettoken, 'd'
     end
     
-    def __test_11
-      s = Scanner.new('abc*def')
-      assert_equal s.gettoken, 'abc'
+    def test_3
+      s = Scanner.new('ab*cd')
+      assert_equal s.gettoken, 'ab'
       assert_equal s.gettoken, '*'
-      assert_equal s.gettoken, 'def'
+      assert_equal s.gettoken, 'cd'
     end
     
-    def test_2
+    def test_4
       s = Scanner.new("(a\tb|c\td)")
       assert_equal s.gettoken, "("
       assert_equal s.gettoken, "a\tb"

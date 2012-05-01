@@ -189,8 +189,14 @@ module ReExpand
       elsif t =~ /^[\+]$/ then
         endnode.addTrans('',startnode)
       elsif t =~ /^[\*]$/ then
+        n = Node.new
         startnode.addTrans('',endnode)
-        endnode.addTrans('',startnode)
+        endnode.addTrans('',n)
+        n.addTrans('',startnode)
+
+        # ループがあるとマズいのか? 上のように修正すると動くようなのだが
+        #startnode.addTrans('',endnode)
+        #endnode.addTrans('',startnode)
       else
         s.ungettoken
       end
