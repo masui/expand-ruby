@@ -3,7 +3,7 @@ $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 module ReExpand
-  VERSION = '0.0.3'
+  VERSION = '0.0.4'
 end
 
 require 'Generator'
@@ -39,7 +39,7 @@ class String
     end
 
     if block_given? then
-      matched.collect { |m|
+      matched.each { |m|
         yield m[0], m[1].split(/\t/)
       }
     else

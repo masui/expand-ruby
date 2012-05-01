@@ -9,6 +9,20 @@ module ReExpand
     end
     
     def test_1
+      s = Scanner.new('a*d')
+      assert_equal s.gettoken, 'a'
+      assert_equal s.gettoken, '*'
+      assert_equal s.gettoken, 'd'
+    end
+    
+    def test_1
+      s = Scanner.new('a+d')
+      assert_equal s.gettoken, 'a'
+      assert_equal s.gettoken, '+'
+      assert_equal s.gettoken, 'd'
+    end
+    
+    def __test_11
       s = Scanner.new('abc*def')
       assert_equal s.gettoken, 'abc'
       assert_equal s.gettoken, '*'

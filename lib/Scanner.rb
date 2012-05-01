@@ -26,7 +26,7 @@ module ReExpand
         return ''
       end
       @t = @a[@p]
-      if @t =~ /^[\(\|\)\*\?\[\]]$/ then
+      if @t =~ /^[\(\|\)\*\+\?\[\]]$/ then
         @p += 1
         return @t
       elsif @t == '\\' then
