@@ -15,7 +15,8 @@
 
 require 'Scanner'
 require 'Node'
-require 'Asearch'
+
+require 'asearch'
 
 module ReExpand
   class GenNode

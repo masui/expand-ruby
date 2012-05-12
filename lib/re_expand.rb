@@ -3,13 +3,14 @@ $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 module ReExpand
-  VERSION = '0.0.4'
+  VERSION = '0.0.6'
 end
 
 require 'Generator'
 require 'Node'
-require 'Asearch'
 require 'Scanner'
+
+# require 'asearch'
 
 class String
   # ExpandHelp用のライブラリを利用

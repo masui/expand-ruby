@@ -14,6 +14,7 @@ $hoe = Hoe.spec 're_expand' do
   self.developer 'Toshiyuki Masui', 'masui@pitecan.com'
   self.post_install_message = 'PostInstall.txt' # TODO remove if post-install message not required
   self.rubyforge_name       = self.name # TODO this is default value
+  self.extra_deps           = [['asearch','>= 0.0.1']]
   # self.extra_deps         = [['activesupport','>= 2.0.2']]
 
 end
