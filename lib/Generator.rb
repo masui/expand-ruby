@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # Generator.rb
-# ExpandHelpApp
 #
 # Created by Toshiyuki Masui on 2011/02/26.
-# Copyright 2011 Pitecan Systems. All rights reserved.
+# Modified by Toshiyuki Masui on 2012/05/??
+# Copyright 2011, 2022 Pitecan Systems. All rights reserved.
 
 #
 #          ( (  )  )  ( (    ) (  (  )  ) (   )  )  | (  (  )  )
@@ -51,7 +51,7 @@ module ReExpand
     #
     # ルールを解析して状態遷移機械を作成し、patにマッチするもののリストを返す
     #
-    def generate(pat, app = nil)
+    def generate(pat, blockambig=0)
       res = [[],[],[]] # 曖昧度0,1,2のマッチ結果
       patterns = pat.split.map { |p| p.downcase }
       
@@ -69,6 +69,7 @@ module ReExpand
       #
       lists = []
       listed = [{},{},{}]
+      block_listed = {}
       #
       # 初期状態
       #
@@ -77,7 +78,6 @@ module ReExpand
       lists[0] = list
       #
       (0..1000).each { |length|
-        break if app && app.inputPending
         list = lists[length]
         newlist = []
         # puts "#{length} - #{list.length}"
@@ -98,23 +98,34 @@ module ReExpand
               # マッチしてたら出力リストに加える
               #
               if acceptno then
-                maxambig = 2
-                (0..maxambig).each { |ambig|
-                  if !listed[ambig][s] then
-                    if (newstate[ambig] & @asearch.acceptpat) != 0 then # マッチ
-                      maxambig = ambig if ambig < maxambig # 曖昧度0でマッチすれば曖昧度1の検索は不要
-                      listed[ambig][s] = true
-                      sslen = ss.length
-                      if sslen > 0 then
-                        # patstr = "(.*)\t" * (sslen-1) + "(.*)"
-                        patstr = (["(.*)"] * sslen).join("\t")
-                        /#{patstr}/ =~ ss.join("\t")
+                if block_given? then
+                  (0..blockambig).each { |ambig|
+                    if !block_listed[s] then
+                      if (newstate[ambig] & @asearch.acceptpat) != 0 then # マッチ
+                        block_listed[s] = true
+                        yield [s] + ss
                       end
-                      # 'set date #{$2}' のような記述の$変数にsubstringの値を代入
-                      res[ambig] << [s, eval('%('+@commands[acceptno]+')')]
                     end
-                  end
-                }
+                  }
+                else
+                  maxambig = 2
+                  (0..maxambig).each { |ambig|
+                    if !listed[ambig][s] then
+                      if (newstate[ambig] & @asearch.acceptpat) != 0 then # マッチ
+                        maxambig = ambig if ambig < maxambig # 曖昧度0でマッチすれば曖昧度1の検索は不要
+                        listed[ambig][s] = true
+                        sslen = ss.length
+                        if sslen > 0 then
+                          # patstr = "(.*)\t" * (sslen-1) + "(.*)"
+                          patstr = (["(.*)"] * sslen).join("\t")
+                          /#{patstr}/ =~ ss.join("\t")
+                        end
+                        # 'set date #{$2}' のような記述の$変数にsubstringの値を代入
+                        res[ambig] << [s, eval('%('+@commands[acceptno]+')')]
+                      end
+                    end
+                  }
+                end
               end
             }
           end

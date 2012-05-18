@@ -18,18 +18,24 @@ module ReExpand
     end
 
     def test_2
-      "(月|火|水|木|金)曜(1|2|3|4|5|6)限".expand { |s,a|
-        assert_equal a.length, 2
+      count = 0
+      "(月|火|水|木|金)曜(1|2|3|4|5|6)限".expand { |a|
+        assert_equal a.length, 3
+        count += 1
       }
+      assert_equal count, 30
 
       e = "(月|火|水|木|金)曜(1|2|3|4|5|6)限".expand(' 1 ')
       assert_equal e.length, 5
+    end
 
-      '(ab|cd)*'.expand(/bc/){ |s,a|
-        assert_equal a.length, 1
-        assert s =~ /abcd/
+    def test_e
+      '(ab|cd)*'.expand { |a|
+        if a[0] =~ /bc/ then
+          assert_equal a.length, 2
+          assert a[0] =~ /abcd/
+        end
       }
-
     end
 
   end
