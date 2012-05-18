@@ -10,17 +10,15 @@ require 'Generator'
 require 'Node'
 require 'Scanner'
 
-# require 'asearch'
-
 class String
   #
-  # str.expand(' abc '){ |a| ... }
-  # str.expand(1){ |a| ... }
-  # str.expand(' abc ',1){ |a| ... }
+  # restr.expand { |a| ... }
+  # restr.expand(' abc '){ |a| ... }    パタンを指定
+  # restr.expand(1){ |a| ... }          許容曖昧度を指定
+  # restr.expand(' abc ',1){ |a| ... }  両方指定
   #
   def expand(arg1=nil,arg2=nil,&block)
     g = ReExpand::Generator.new
-    # g.add(self,"\#{$1}\t\#{$2}\t\#{$3}\t\#{$4}\t\#{$5}\t\#{$6}\t\#{$7}\t\#{$8}\t\#{$9}")
     g.add(self,'')
     strings = []
 
@@ -32,8 +30,13 @@ class String
       elsif arg2.nil? && arg1.class == String then
         filterpat = arg1
       elsif arg1 && arg2 then
-        filterpat = arg1
-        ambig = arg2
+        if arg1.class == Fixnum then
+          ambig = arg1
+          filterpat = arg2
+        else
+          filterpat = arg1
+          ambig = arg2
+        end
       end
       g.generate(filterpat,ambig,&block)
     else
@@ -45,28 +48,6 @@ class String
         r[0]
       }
     end
-
-#    if filterpat then
-#      m = g.generate(filterpat)
-#      matched = m[0].length > 0 ? m[0] : m[1].length > 0 ? m[1] : m[2]
-#      strings = matched.collect { |r|
-#        r[0]
-#      }
-#    else
-#      matched = g.generate(' ')[0]
-#      strings = matched.collect { |r|
-#        r[0]
-#      }
-#    end
-#
-#    if block_given? then
-#      matched.each { |m|
-#        # yield m[0], m[1].split(/\t/)
-#        yield [m[0]] + m[1].split(/\t/)
-#      }
-#    else
-#      strings
-#    end
   end
 end
 
