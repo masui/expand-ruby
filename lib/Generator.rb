@@ -77,7 +77,10 @@ module ReExpand
       list[0] = GenNode.new(startnode.id, @asearch.initstate)
       lists[0] = list
       #
+      loopcount = 0
       (0..1000).each { |length|
+      #loop do 
+      #  length = loopcount
         list = lists[length]
         newlist = []
         # puts "#{length} - #{list.length}"
@@ -133,6 +136,8 @@ module ReExpand
         break if newlist.length == 0
         lists << newlist
         break if res[0].length > 100
+      # loopcount += 1
+      #end
       }
       [res[0], res[1], res[2]]
     end
