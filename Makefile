@@ -13,3 +13,4 @@ gitpush:
 always:	
 test: always
 	rake test
+
